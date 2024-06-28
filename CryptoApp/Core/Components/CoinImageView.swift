@@ -14,11 +14,8 @@ import SwiftUI
 struct CoinImageView: View {
     @StateObject var coinImageVM : CoinImageViewModel
     
-    //to pass the coin into CoinImageVM, we will init here
     
         init(coin:CoinModel){
-        
-        //to reference the stateObject, we have to add underscore _
         _coinImageVM = StateObject(wrappedValue: CoinImageViewModel(coin: coin))
     }
     

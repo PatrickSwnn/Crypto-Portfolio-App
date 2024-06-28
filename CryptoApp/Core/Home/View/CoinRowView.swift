@@ -25,7 +25,7 @@ struct CoinRowView: View {
             rightColumn
             
         }
-        .font(.subheadline) //formats every font that are not formatted to subheadline
+        .font(.subheadline)
         .background(
         //since the background is added here, the entire row becomes clickable instead of the coin names and images.
             Color.theme.background.opacity(0.0001)

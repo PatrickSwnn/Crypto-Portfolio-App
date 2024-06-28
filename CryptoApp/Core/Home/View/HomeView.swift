@@ -24,7 +24,7 @@ struct HomeView: View {
         ZStack{
             Color.theme.background
                 .ignoresSafeArea(.all)
-            //we can inject the sheet view at the top level
+            //injecting the sheet view at the top level
                 .sheet(isPresented: $clickedPortfolio, content: {
                     PortfolioView()
                 })
@@ -72,7 +72,7 @@ struct HomeView: View {
 
                     }
                 }
-                //add this spacer to remain the view consistent ( try removing it to see what it does )
+               
                 Spacer(minLength: 0)
                 .transition(.move(edge: .trailing))
                 
@@ -134,7 +134,7 @@ extension HomeView  {
             Spacer()
             Text(showPortfolio ? "Portfolio" : "Live Price")
                 .font(.headline)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.theme.accent)
                 .fontWeight(.heavy)
                 .animation(.none)
             Spacer()

@@ -15,6 +15,7 @@ class PortfolioDataService {
     let containerName : String = "PortfolioContainer"
     let entityName : String = "Portfolio"
     @Published var savedEntities : [Portfolio] = []
+   
     //initialize the container
     init(){
         container = NSPersistentContainer(name:containerName)
@@ -50,7 +51,7 @@ class PortfolioDataService {
         //apply changes
         applyChanges()
     }
-     //since we already have the created entity
+    
     private func updatePortfolio(entity:Portfolio,amount:Double){
         entity.amount = amount
         print("Update Portfolio is being executed")
@@ -73,10 +74,9 @@ class PortfolioDataService {
     private func applyChanges(){
         saveChanges()
         getPortfolio()
-        //saving and refreshing
+        //for saving and refreshing
     }
     
-    // MARK: Public Func for Making UI Efficient Code
     
     //this func will decide whether it should add, update or delete the Portfolio Coins
     func refreshPortfolio(coin:CoinModel,amount:Double) {

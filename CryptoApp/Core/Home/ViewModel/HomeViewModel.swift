@@ -28,12 +28,9 @@ class HomeViewModel : ObservableObject {
         addSubscribers()
         
     }
-    //we will subscribe to coin data service class to listen to changes
     func addSubscribers(){
-        
         $searchText
-        //also subscribe the allCoins using combine
-            //and sort at the top level as well
+        //subscribe  allCoins and sort at top lvl
             .combineLatest(coinDataService.$allCoins, $sort)
         //timer before every publishers publish new values
             .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
@@ -46,9 +43,7 @@ class HomeViewModel : ObservableObject {
             .store(in: &cancellables)
         
         //add portfolioData subsriber
-        
-        //first we will resubsribe the allCoins ( the flitered one )
-        //this is becoz,we will need to work with the coins for that view
+        //first we will resubsribe the allCoins ( the flitered one ) since we will need to work with the coins for that view
         
         $allCoins
             .combineLatest(portfolioDataService.$savedEntities)
@@ -66,7 +61,7 @@ class HomeViewModel : ObservableObject {
         marketDataService.$marketData
         //combine the portfolio values
             .combineLatest($holdingCoins)
-        //we have to map the values of market data and transform them into StatsModel  array
+        // map the values of market data and transform them into StatsModel  array
             .map(transformMarketData)
             .sink { [weak self] returnedStats in
                 self?.allStats = returnedStats
@@ -79,18 +74,16 @@ class HomeViewModel : ObservableObject {
     
     
     func updatePortfolioList(coin:CoinModel,amount:Double){
-        //this is for UI
+        //for UI changes
         portfolioDataService.refreshPortfolio(coin: coin, amount: amount)
         
     }
     
     func reloadData(){
-        //need to call coindataservice and marketdataservice again
         // loader
         isLoading = true
         coinDataService.downloadCoins()
         marketDataService.downloadMarketData()
-        //since the data are already in sink as subscribers, we will set isLoading as false at the bottom level of subsriber which is marketDataService.
         //vibration service
         HapticManager.notification(result: .success)
     }
@@ -107,11 +100,9 @@ class HomeViewModel : ObservableObject {
     
     
     private func searchFiltering(text:String,startingCoins:[CoinModel])->[CoinModel]{
-        //if there is no text in search field, just return
         guard !text.isEmpty else {
             return startingCoins }
-        //if there is text,
-        // make everything lowercased, first
+     
         let lowercasedText = text.lowercased()
         let filteredCoins = startingCoins.filter { coin -> Bool in
             return coin.name.lowercased().contains(lowercasedText) ||
@@ -121,7 +112,7 @@ class HomeViewModel : ObservableObject {
         return filteredCoins
     }
     
-    private func sortCoins(sort:SortOptions,coins: inout [CoinModel]){ // inout basically means the input inout var will only be transformed in place and won't become a new data type, in this case a new array
+    private func sortCoins(sort:SortOptions,coins: inout [CoinModel]){ // inout basically means the input inout var will only be transformed in place and won't become a new data , in this case a new array
         switch sort {
         case .rank,.holdings:
             coins.sort (by: { $0.rank < $1.rank }) //sorts the collection inplace instead of making a new array
@@ -144,7 +135,7 @@ class HomeViewModel : ObservableObject {
     
     
     private func transformCoinIntoPortfolio(coins:[CoinModel],portfolios:[Portfolio])->[CoinModel]{
-        //make map to coin again to check whether their in the portfolio or not
+        //make map to coin again to check whether they are in the portfolio or not
         coins
             .compactMap { coin -> CoinModel? in
                 guard let entity = portfolios.first(where: {$0.coinID == coin.id}) else { return nil }// we use compact map since we want to return nil if there is no coin in portfolio
@@ -187,7 +178,7 @@ class HomeViewModel : ObservableObject {
             .reduce(0, +)
         
         
-        // FOR PERCENT CHANGE FORMULA (CURRENT VALUE - OLD VALUE) / OLD VALUE
+        //  PERCENT CHANGE FORMULA (CURRENT VALUE - OLD VALUE) / OLD VALUE
         //percent change means change over 24 hours in percent
         let previousValue = holdingCoins.map { coin -> Double in
             let currentValue = coin.currentHoldingsValue

@@ -20,8 +20,8 @@ final class AuthenticationManager {
         return AuthDataModel(user: authDataResult.user)
     }
     
-    func getUser() throws -> AuthDataModel { //this is not gonna be async func because this will be done locally without needing to communicate the server
-        // and also we don't use async because this has to be synchronous. i.e, you can't use an app skipping the step of checking if the user already exists or not
+    func getUser() throws -> AuthDataModel {
+       
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badServerResponse)
         }
@@ -35,10 +35,3 @@ final class AuthenticationManager {
     
     
 }
-/*
- 
- Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-   guard let strongSelf = self else { return }
-   // ...
- }
- */

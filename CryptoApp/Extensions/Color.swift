@@ -34,14 +34,3 @@ struct Launch {
 }
 
 
-
-// Colors
-/*
- 
- tintColor
- backgroundColor
- textColor
- 
- 
- 
- */
