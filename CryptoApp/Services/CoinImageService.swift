@@ -15,15 +15,15 @@ class CoinImageService : ObservableObject  {
     private var imageSubscription : AnyCancellable?
     private let coin : CoinModel
     private let fileManager = LocalFileManager.instance
-    //we can hard code the imageName and folderName here since this vm won't be generic and will be specific for a single view
     
+    //hard code the folderName here since this vm won't be generic and will be specific for a single view
      let folderName = "CoinImages"
     let imageName : String
     
     
     init(coin : CoinModel){
         self.coin = coin
-            // we are using coin id as a name for images
+            //using coin id as a name for images
         self.imageName = coin.id
         getImage()
         
@@ -46,9 +46,7 @@ class CoinImageService : ObservableObject  {
     
     private func downloadImage(coin:CoinModel){
         guard let url = URL(string: coin.image) else { return }
-        //it can be confusing when we create a set of cancellables ( if there are a lot of parsing sessions, we are not gonna know which one we are going to cancel) So, now we can cancel the last one
         imageSubscription =  NetworkingManager.downloadData(forURL: url)
-        // instead of decoding, we'll get the UIimage from data using tryMap ( not for dataValidaton )
             .tryMap({ data -> UIImage? in
                 UIImage(data: data)
             })

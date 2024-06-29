@@ -8,44 +8,26 @@
 import SwiftUI
 
 struct RootView: View {
-    @EnvironmentObject  var authVM : SignInAndOutViewModel
+//    @EnvironmentObject  var authVM : SignInAndOutViewModel
     var body: some View {
+
+        
+        
 //        ZStack {
-//            NavigationStack {
-//                HomeView()
-//            }
-//            .onAppear {
-//               
-//                    let existingUser = try? AuthenticationManager.shared.getUser()
-//                //since the tinary operator returns bool values, we don't need to add ? and :
-//                    showSignInView = (existingUser == nil)
-//               
+//            if authVM.isSignedIn {
+                HomeView()
+//                    .transition(.move(edge: .leading))
+//            } else {
+//                EmailSignInView()
+//                    .transition(.move(edge: .leading))
 //            }
 //        }
-//        .fullScreenCover(isPresented: $showSignInView, content: {
-//            EmailSignInView()
-//        })
-        
-        
-        ZStack {
-            if authVM.isSignedIn {
-                HomeView()
-                    .transition(.move(edge: .leading))
-            } else {
-                EmailSignInView()
-                    .transition(.move(edge: .leading))
-            }
-        }
-        .onAppear{
-            let existingUser = try? AuthenticationManager.shared.getUser()
-           //                //since the tinary operator returns bool values, we don't need to add ? and :
-            authVM.isSignedIn = (existingUser != nil)
-        }
+//        .onAppear{
+//            let existingUser = try? AuthenticationManager.shared.getUser()
+//           //                //since the tinary operator returns bool values, we don't need to add ? and :
+//            authVM.isSignedIn = (existingUser != nil)
+//        }
 
     }
 }
 
-//#Preview {
-//    RootView()
-//        .environmentObject(e)
-//}

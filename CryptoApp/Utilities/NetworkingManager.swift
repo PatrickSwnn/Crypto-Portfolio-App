@@ -25,7 +25,6 @@ class NetworkingManager {
     }
     
     
-    //when the func is static, you don't need to initialize the object to use it
     static func downloadData(forURL url : URL) -> AnyPublisher<Data, Error> {
             return URLSession.shared.dataTaskPublisher(for: url)
             .subscribe(on: DispatchQueue.global(qos: .default))

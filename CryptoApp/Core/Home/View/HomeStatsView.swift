@@ -15,10 +15,10 @@ struct HomeStatsView: View {
         HStack{
             ForEach(vm.allStats,id: \.id){ stat in
             StatsView(stat: stat)
-                    .frame(width: UIScreen.main.bounds.width / 3) // since I want to fit in 3 elements
+                    .frame(width: UIScreen.main.bounds.width / 3) // for fitting in 3 elements
                 
                 
-            } //meaning the maxWidth of HStack is the width of users phone
+            } 
         } .frame(maxWidth: UIScreen.main.bounds.width,
                  alignment: showPortfolio ? .trailing : .leading )
     }

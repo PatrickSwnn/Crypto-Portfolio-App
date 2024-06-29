@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class MarketDataService : ObservableObject {
-    @Published var marketData : MarketDataModel? = nil // this is a publisher
+    @Published var marketData : MarketDataModel? = nil
     private var marketSubscription : AnyCancellable?
     
     init(){
@@ -18,7 +18,6 @@ class MarketDataService : ObservableObject {
     
     func downloadMarketData(){
         guard let url = URL(string: "https://api.coingecko.com/api/v3/global") else { return }
-        //it can be confusing when we create a set of cancellables ( if there are a lot of parsing sessions, we are not gonna know which one we are going to cancel) So, now we can cancel the last one
         marketSubscription =  NetworkingManager.downloadData(forURL: url)
             .decode(type: GlobalData.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
